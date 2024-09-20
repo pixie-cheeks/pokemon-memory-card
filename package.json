@@ -1,0 +1,43 @@
+{
+  "name": "react-vite-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@awmottaz/prettier-plugin-void-html": "^1.6.1",
+    "@types/react": "^18.3.7",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.36.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.12",
+    "eslint-plugin-unicorn": "^55.0.0",
+    "postcss-preset-env": "^10.0.3",
+    "prettier": "^3.3.3",
+    "stylelint": "^16.9.0",
+    "stylelint-config-concentric-order": "^5.2.0",
+    "stylelint-config-standard": "^36.0.1",
+    "vite": "^5.4.6"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "plugins": [
+      "@awmottaz/prettier-plugin-void-html"
+    ]
+  }
+}
