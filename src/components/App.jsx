@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import Game from './Game/Game.jsx';
+import { Game } from './Game/Game.jsx';
 
-function Scoreboard({ score }) {
+function Scoreboard({ currentScore, highScore }) {
   return (
     <div className="scoreboard">
       <div className="scoreboard__score">
         <div className="scoreboard__name">Score:</div>
-        <div className="scoreboard__count">{score}</div>
+        <div className="scoreboard__count">{currentScore}</div>
       </div>
       <div className="scoreboard__score">
         <div className="scoreboard__name">High Score:</div>
-        <div className="scoreboard__count">0</div>
+        <div className="scoreboard__count">{highScore}</div>
       </div>
     </div>
   );
@@ -18,15 +18,23 @@ function Scoreboard({ score }) {
 
 function App() {
   const [currentScore, setCurrentScore] = useState(0);
+  const [highScore, setHighScore] = useState(
+    Number(localStorage.getItem('highScore')) ?? 0,
+  );
+
+  if (currentScore > highScore) {
+    localStorage.setItem('highScore', currentScore);
+    setHighScore(currentScore);
+  }
   return (
     <>
       <header className="header">
         <h1 className="page__title">Pokémon: Memory Card</h1>
-        <Scoreboard score={currentScore} />
+        <Scoreboard {...{ currentScore, highScore }} />
       </header>
       <Game {...{ setCurrentScore, currentScore }} />
     </>
   );
 }
 
-export default App;
+export { App };

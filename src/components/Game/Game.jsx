@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import pokemons from './game-data.json';
+import allPokemon from './game-data.json';
 
 function GameCard({ sprite, name, onClick }) {
   return (
@@ -10,6 +10,32 @@ function GameCard({ sprite, name, onClick }) {
       <div className="card__name">{name}</div>
     </button>
   );
+}
+
+function GameLostModal({ currentScore, resetGame }) {
+  return (
+    <div className="modal">
+      <div className="modal__title">Game Over!</div>
+      <img src="#" alt="#" className="modal__img" />
+      <div className="modal__text">Your final score is {currentScore}</div>
+      <div className="modal__actions">
+        <button
+          type="button"
+          className="button modal__button"
+          onClick={resetGame}
+        >
+          Play again
+        </button>
+        <button type="button" className="button modal__button">
+          Quit
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function GameWonModal() {
+  return <div className="modal" />;
 }
 
 function getRandomInt(min, max) {
@@ -30,40 +56,56 @@ function shuffleArray(array) {
 
 function getRandomPokemon(pokemonList, maxPokemon = 15) {
   const unseenPokemon = pokemonList.filter(({ seen }) => !seen);
-  const randomPokemon = [];
+  const randomPokemonArray = [];
 
   for (let index = 0; index < maxPokemon; index++) {
-    randomPokemon.push(
-      ...unseenPokemon.splice(getRandomInt(0, unseenPokemon.length - 1), 1),
+    const [randomPokemon] = unseenPokemon.splice(
+      getRandomInt(0, unseenPokemon.length - 1),
+      1,
     );
+    randomPokemon.seen = true;
+    randomPokemonArray.push(randomPokemon);
   }
 
-  return randomPokemon;
+  return randomPokemonArray;
 }
 
-const initialPokemons = pokemons.map((pokemon) => ({
-  ...pokemon,
-  seen: false,
-}));
+const setSeen = (array, seenStatus) =>
+  array.map((element) => ({ ...element, seen: seenStatus }));
+
+let newGamePokemon = setSeen(allPokemon, false);
+const initialPokemonCardList = getRandomPokemon(newGamePokemon);
 
 function Game({ setCurrentScore, currentScore }) {
   const [pokemonCardList, setPokemonCardList] = useState(
-    getRandomPokemon(initialPokemons),
+    initialPokemonCardList,
   );
   const [clickedPokemon, setClickedPokemon] = useState([]);
+  const [isGameLost, setIsGameLost] = useState(false);
+  const [isGameWon, setIsGameWon] = useState(false);
+
+  const resetGame = () => {
+    newGamePokemon = setSeen(newGamePokemon, false);
+    setPokemonCardList(getRandomPokemon(newGamePokemon));
+    setClickedPokemon([]);
+    setCurrentScore(0);
+    if (isGameLost) setIsGameLost(false);
+    if (isGameWon) setIsGameWon(false);
+  };
 
   const onClick = (clickedId) => {
+    if (isGameWon || isGameLost) return;
+
     if (clickedPokemon.includes(clickedId)) {
-      // Add lose condition here.
+      setIsGameLost(true);
       return;
     }
     setClickedPokemon([...clickedPokemon, clickedId]);
-    setCurrentScore((score) => score + 1);
+    setCurrentScore(currentScore + 1);
     if (clickedPokemon.length === pokemonCardList.length) {
-      // Add win condition here.
+      setIsGameWon(true);
       return;
     }
-
     setPokemonCardList(shuffleArray(pokemonCardList));
   };
 
@@ -75,8 +117,10 @@ function Game({ setCurrentScore, currentScore }) {
     <div className="game">
       <h2 className="game__card-count">{currentScore}/15</h2>
       <div className="game__cards-container">{pokemonCards}</div>
+      {isGameLost && <GameLostModal {...{ currentScore, resetGame }} />}
+      {isGameWon && <GameWonModal />}
     </div>
   );
 }
 
-export default Game;
+export { Game };
