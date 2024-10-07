@@ -27,6 +27,8 @@ module.exports = {
     'no-unused-vars': 'warn',
     'no-plusplus': 'off',
     'import/extensions': ['error', 'ignorePackages'],
+    'import/prefer-default-export': 'off',
+    'import/no-default-export': 'error',
     'no-param-reassign': ['error', { props: false }],
     'unicorn/better-regex': 'warn',
     'unicorn/numeric-separators-style': [
