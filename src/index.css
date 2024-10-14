@@ -4,6 +4,16 @@
 
 .page {
   padding: 1em;
+  min-height: 100dvh;
+}
+
+.game-title {
+  border: none;
+  background-color: white;
+  padding: 0;
+  font: inherit;
+  font-size: large;
+  font-weight: bold;
 }
 
 .scoreboard {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Game } from './Game/Game.jsx';
+import { MenuScreen } from './MenuScreen/MenuScreen.jsx';
 
 function Scoreboard({ currentScore, highScore }) {
   return (
@@ -17,6 +18,7 @@ function Scoreboard({ currentScore, highScore }) {
 }
 
 function App() {
+  const [isGameStarted, setIsGameStarted] = useState(false);
   const [currentScore, setCurrentScore] = useState(0);
   const [highScore, setHighScore] = useState(
     Number(localStorage.getItem('highScore')) ?? 0,
@@ -26,13 +28,25 @@ function App() {
     localStorage.setItem('highScore', currentScore);
     setHighScore(currentScore);
   }
+
+  const startGame = () => setIsGameStarted(true);
+  const quitGame = () => setIsGameStarted(false);
+
+  if (!isGameStarted) return <MenuScreen startGame={startGame} />;
+
   return (
     <>
       <header className="header">
-        <h1 className="page__title">Pokémon: Memory Card</h1>
+        <button
+          type="button"
+          className="page__title game-title"
+          onClick={quitGame}
+        >
+          Pokémon: Memory Card
+        </button>
         <Scoreboard {...{ currentScore, highScore }} />
       </header>
-      <Game {...{ setCurrentScore, currentScore }} />
+      <Game {...{ setCurrentScore, currentScore, quitGame, isGameStarted }} />
     </>
   );
 }

@@ -12,58 +12,44 @@ function GameCard({ sprite, name, onClick }) {
   );
 }
 
-function GameLostModal({ currentScore, resetGame }) {
+function ModalButton({ onClick, children }) {
+  return (
+    <button type="button" className="button modal__button" onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
+function GameLostModal({ currentScore, resetGame, exitGame }) {
   return (
     <div className="modal">
       <div className="modal__title">Game Over!</div>
       <img src="#" alt="#" className="modal__img" />
-      <div className="modal__text">Your final score is {currentScore}</div>
+      <div className="modal__text">Your final score is {currentScore}.</div>
       <div className="modal__actions">
-        <button
-          type="button"
-          className="button modal__button"
-          onClick={resetGame}
-        >
-          Start Over
-        </button>
-        <button type="button" className="button modal__button">
-          Quit
-        </button>
+        <ModalButton onClick={resetGame}>Start Over</ModalButton>
+        <ModalButton onClick={exitGame}>Quit Game</ModalButton>
       </div>
     </div>
   );
 }
 
-function GameWonModal({ resetGame, continueGame, currentScore }) {
+function GameWonModal({ resetGame, continueGame, currentScore, exitGame }) {
   return (
     <div className="modal">
       <div className="modal__title">You Win!</div>
       <img src="#" alt="#" className="modal__img" />
-      <div className="modal__text">Your final score is {currentScore}</div>
+      <div className="modal__text">Your final score is {currentScore}.</div>
       <div className="modal__actions">
-        <button
-          type="button"
-          className="button modal__button"
-          onClick={continueGame}
-        >
-          Keep Going
-        </button>
-        <button
-          type="button"
-          className="button modal__button"
-          onClick={resetGame}
-        >
-          Start Over
-        </button>
-        <button type="button" className="button modal__button">
-          Quit
-        </button>
+        <ModalButton onClick={continueGame}>Keep Going</ModalButton>
+        <ModalButton onClick={resetGame}>Start Over</ModalButton>
+        <ModalButton onClick={exitGame}>Quit Game</ModalButton>
       </div>
     </div>
   );
 }
 
-function GameCompletedModal({ currentScore, resetGame }) {
+function GameCompletedModal({ currentScore, resetGame, exitGame }) {
   return (
     <div className="modal">
       <div className="modal__title">100% completed!</div>
@@ -73,16 +59,8 @@ function GameCompletedModal({ currentScore, resetGame }) {
         game!
       </div>
       <div className="modal__actions">
-        <button
-          type="button"
-          className="button modal__button"
-          onClick={resetGame}
-        >
-          Start Over
-        </button>
-        <button type="button" className="button modal__button">
-          Quit
-        </button>
+        <ModalButton onClick={resetGame}>Start Over</ModalButton>
+        <ModalButton onClick={exitGame}>Quit Game</ModalButton>
       </div>
     </div>
   );
@@ -127,7 +105,7 @@ let newGamePokemon = setSeen(allPokemon, false);
 let unseenPokemon = newGamePokemon.length - 15;
 const initialPokemonCardList = getRandomPokemon(newGamePokemon);
 
-function Game({ setCurrentScore, currentScore }) {
+function Game({ setCurrentScore, currentScore, quitGame }) {
   const [pokemonCardList, setPokemonCardList] = useState(
     initialPokemonCardList,
   );
@@ -166,6 +144,11 @@ function Game({ setCurrentScore, currentScore }) {
     resetRound();
   };
 
+  const exitGame = () => {
+    resetGame();
+    quitGame();
+  };
+
   const onClick = (clickedId) => {
     if (isGameWon || isGameLost || isGameCompleted) return;
 
@@ -199,12 +182,16 @@ function Game({ setCurrentScore, currentScore }) {
         {roundScore}/{maxScore}
       </h2>
       <div className="game__cards-container">{pokemonCards}</div>
-      {isGameLost && <GameLostModal {...{ currentScore, resetGame }} />}
+      {isGameLost && (
+        <GameLostModal {...{ currentScore, resetGame, exitGame }} />
+      )}
       {isGameWon && (
-        <GameWonModal {...{ currentScore, resetGame, continueGame }} />
+        <GameWonModal
+          {...{ currentScore, resetGame, continueGame, exitGame }}
+        />
       )}
       {isGameCompleted && (
-        <GameCompletedModal {...{ currentScore, resetGame }} />
+        <GameCompletedModal {...{ currentScore, resetGame, exitGame }} />
       )}
     </div>
   );
