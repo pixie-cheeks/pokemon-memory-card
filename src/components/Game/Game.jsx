@@ -24,7 +24,7 @@ function GameLostModal({ currentScore, resetGame }) {
           className="button modal__button"
           onClick={resetGame}
         >
-          Play again
+          Start Over
         </button>
         <button type="button" className="button modal__button">
           Quit
@@ -34,8 +34,33 @@ function GameLostModal({ currentScore, resetGame }) {
   );
 }
 
-function GameWonModal() {
-  return <div className="modal" />;
+function GameWonModal({ resetGame, continueGame, currentScore }) {
+  return (
+    <div className="modal">
+      <div className="modal__title">You Win!</div>
+      <img src="#" alt="#" className="modal__img" />
+      <div className="modal__text">Your final score is {currentScore}</div>
+      <div className="modal__actions">
+        <button
+          type="button"
+          className="button modal__button"
+          onClick={continueGame}
+        >
+          Keep Going
+        </button>
+        <button
+          type="button"
+          className="button modal__button"
+          onClick={resetGame}
+        >
+          Start Over
+        </button>
+        <button type="button" className="button modal__button">
+          Quit
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function getRandomInt(min, max) {
@@ -85,6 +110,14 @@ function Game({ setCurrentScore, currentScore }) {
   const [roundScore, setRoundScore] = useState(0);
   const [isGameLost, setIsGameLost] = useState(false);
   const [isGameWon, setIsGameWon] = useState(false);
+  const maxScore = pokemonCardList.length;
+
+  const resetRound = () => {
+    setClickedPokemon([]);
+    setRoundScore(0);
+    if (isGameLost) setIsGameLost(false);
+    if (isGameWon) setIsGameWon(false);
+  };
 
   const continueGame = () => {
     if (unseenPokemon === 16) {
@@ -94,17 +127,14 @@ function Game({ setCurrentScore, currentScore }) {
       unseenPokemon -= 15;
       setPokemonCardList(getRandomPokemon(newGamePokemon));
     }
-    setClickedPokemon([]);
-    setCurrentScore(0);
+    resetRound();
   };
 
   const resetGame = () => {
     newGamePokemon = setSeen(newGamePokemon, false);
     setPokemonCardList(getRandomPokemon(newGamePokemon));
-    setClickedPokemon([]);
     setCurrentScore(0);
-    if (isGameLost) setIsGameLost(false);
-    if (isGameWon) setIsGameWon(false);
+    resetRound();
   };
 
   const onClick = (clickedId) => {
@@ -117,7 +147,9 @@ function Game({ setCurrentScore, currentScore }) {
     setClickedPokemon([...clickedPokemon, clickedId]);
     setCurrentScore(currentScore + 1);
     setRoundScore(roundScore + 1);
-    if (clickedPokemon.length === pokemonCardList.length) {
+    // Because it doesn't update until the next render
+    if (clickedPokemon.length + 1 === pokemonCardList.length) {
+      // if (clickedPokemon.length + 1 === 5) {
       setIsGameWon(true);
       return;
     }
@@ -130,10 +162,14 @@ function Game({ setCurrentScore, currentScore }) {
 
   return (
     <div className="game">
-      <h2 className="game__card-count">{roundScore}/15</h2>
+      <h2 className="game__card-count">
+        {roundScore}/{maxScore}
+      </h2>
       <div className="game__cards-container">{pokemonCards}</div>
       {isGameLost && <GameLostModal {...{ currentScore, resetGame }} />}
-      {isGameWon && <GameWonModal />}
+      {isGameWon && (
+        <GameWonModal {...{ currentScore, resetGame, continueGame }} />
+      )}
     </div>
   );
 }

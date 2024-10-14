@@ -6,11 +6,11 @@ function Scoreboard({ currentScore, highScore }) {
     <div className="scoreboard">
       <div className="scoreboard__score">
         <div className="scoreboard__name">Score:</div>
-        <div className="scoreboard__count">{currentScore}</div>
+        <div className="scoreboard__count">{currentScore}/151</div>
       </div>
       <div className="scoreboard__score">
         <div className="scoreboard__name">High Score:</div>
-        <div className="scoreboard__count">{highScore}</div>
+        <div className="scoreboard__count">{highScore}/151</div>
       </div>
     </div>
   );
