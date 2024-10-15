@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { GameHead } from '../GameHead/GameHead.jsx';
 import allPokemon from './game-data.json';
 
 function GameCard({ sprite, name, onClick }) {
@@ -103,11 +104,10 @@ const setSeen = (array, seenStatus) =>
 
 let newGamePokemon = setSeen(allPokemon, false);
 let unseenPokemon = newGamePokemon.length - 15;
-const initialPokemonCardList = getRandomPokemon(newGamePokemon);
 
-function Game({ setCurrentScore, currentScore, quitGame }) {
-  const [pokemonCardList, setPokemonCardList] = useState(
-    initialPokemonCardList,
+function Game({ setCurrentScore, currentScore, quitGame, highScore }) {
+  const [pokemonCardList, setPokemonCardList] = useState(() =>
+    getRandomPokemon(newGamePokemon),
   );
   const [clickedPokemon, setClickedPokemon] = useState([]);
   const [roundScore, setRoundScore] = useState(0);
@@ -136,7 +136,7 @@ function Game({ setCurrentScore, currentScore, quitGame }) {
   const resetGame = () => {
     newGamePokemon = setSeen(newGamePokemon, false);
     unseenPokemon = newGamePokemon.length - 15;
-    setPokemonCardList(getRandomPokemon(newGamePokemon));
+    setPokemonCardList(() => getRandomPokemon(newGamePokemon));
     setCurrentScore(0);
     if (isGameLost) setIsGameLost(false);
     if (isGameWon) setIsGameWon(false);
@@ -177,23 +177,26 @@ function Game({ setCurrentScore, currentScore, quitGame }) {
   ));
 
   return (
-    <div className="game">
-      <h2 className="game__card-count">
-        {roundScore}/{maxScore}
-      </h2>
-      <div className="game__cards-container">{pokemonCards}</div>
-      {isGameLost && (
-        <GameLostModal {...{ currentScore, resetGame, exitGame }} />
-      )}
-      {isGameWon && (
-        <GameWonModal
-          {...{ currentScore, resetGame, continueGame, exitGame }}
-        />
-      )}
-      {isGameCompleted && (
-        <GameCompletedModal {...{ currentScore, resetGame, exitGame }} />
-      )}
-    </div>
+    <>
+      <GameHead {...{ currentScore, highScore, exitGame }} />
+      <div className="game">
+        <h2 className="game__card-count">
+          {roundScore}/{maxScore}
+        </h2>
+        <div className="game__cards-container">{pokemonCards}</div>
+        {isGameLost && (
+          <GameLostModal {...{ currentScore, resetGame, exitGame }} />
+        )}
+        {isGameWon && (
+          <GameWonModal
+            {...{ currentScore, resetGame, continueGame, exitGame }}
+          />
+        )}
+        {isGameCompleted && (
+          <GameCompletedModal {...{ currentScore, resetGame, exitGame }} />
+        )}
+      </div>
+    </>
   );
 }
 
