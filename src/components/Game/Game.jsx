@@ -20,6 +20,14 @@ function GameCard({ sprite, name, onClick }) {
   );
 }
 
+function Modal({ children }) {
+  return (
+    <div className="modal">
+      <div className="modal__content">{children}</div>
+    </div>
+  );
+}
+
 function ModalButton({ onClick, children }) {
   return (
     <button type="button" className="button modal__button" onClick={onClick}>
@@ -30,7 +38,7 @@ function ModalButton({ onClick, children }) {
 
 function GameLostModal({ currentScore, resetGame, exitGame }) {
   return (
-    <div className="modal">
+    <Modal>
       <div className="modal__title">Game Over!</div>
       <img src="#" alt="#" className="modal__img" />
       <div className="modal__text">Your final score is {currentScore}.</div>
@@ -38,13 +46,13 @@ function GameLostModal({ currentScore, resetGame, exitGame }) {
         <ModalButton onClick={resetGame}>Start Over</ModalButton>
         <ModalButton onClick={exitGame}>Quit Game</ModalButton>
       </div>
-    </div>
+    </Modal>
   );
 }
 
 function GameWonModal({ resetGame, continueGame, currentScore, exitGame }) {
   return (
-    <div className="modal">
+    <Modal>
       <div className="modal__title">You Win!</div>
       <img src="#" alt="#" className="modal__img" />
       <div className="modal__text">Your final score is {currentScore}.</div>
@@ -53,13 +61,13 @@ function GameWonModal({ resetGame, continueGame, currentScore, exitGame }) {
         <ModalButton onClick={resetGame}>Start Over</ModalButton>
         <ModalButton onClick={exitGame}>Quit Game</ModalButton>
       </div>
-    </div>
+    </Modal>
   );
 }
 
 function GameCompletedModal({ currentScore, resetGame, exitGame }) {
   return (
-    <div className="modal">
+    <Modal>
       <div className="modal__title">100% completed!</div>
       <img src="#" alt="#" className="modal__img" />
       <div className="modal__text">
@@ -70,7 +78,7 @@ function GameCompletedModal({ currentScore, resetGame, exitGame }) {
         <ModalButton onClick={resetGame}>Start Over</ModalButton>
         <ModalButton onClick={exitGame}>Quit Game</ModalButton>
       </div>
-    </div>
+    </Modal>
   );
 }
 
