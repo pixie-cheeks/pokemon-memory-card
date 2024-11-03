@@ -22,9 +22,8 @@ function GameHead({ exitGame, currentScore, highScore }) {
         className="page__title game-title"
         onClick={exitGame}
       >
-        <span className="game-title__main">Pokémon:</span>
-        <br />
-        <span className="game-title__sub">Memory Card</span>
+        <p className="game-title__main">Pokémon:</p>
+        <p className="game-title__sub">Memory Card</p>
       </button>
       <Scoreboard {...{ currentScore, highScore }} />
     </header>

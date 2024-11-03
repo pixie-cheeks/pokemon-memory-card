@@ -29,10 +29,12 @@
 }
 
 .game__card-count {
-  margin: 0.5em auto;
+  margin: 0.1em auto;
   text-align: center;
-  color: rgb(0 0 0);
-  font-size: 2rem;
+  color: white;
+  font-size: 3rem;
+  font-weight: 1000;
+  -webkit-text-stroke: black 2px;
 }
 
 .card__img {

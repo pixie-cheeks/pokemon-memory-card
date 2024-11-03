@@ -6,31 +6,34 @@
 
 .game-title {
   border: none;
-  background-color: white;
+  background-color: transparent;
   padding: 0;
   font: inherit;
-  font-size: large;
-  font-weight: bold;
+  font-weight: 1000;
 }
 
 .game-title__main {
-  color: yellow;
-  font-size: 2rem;
-  -webkit-text-stroke: #212121 0.01em;
+  margin: 0;
+  color: white;
+  font-size: 4rem;
+  -webkit-text-stroke: red 0.04em;
 }
 
 .game-title__sub {
-  -webkit-text-stroke: #212121 0.007em;
+  margin: -0.5em 0 1em;
   color: white;
+  font-size: 2rem;
+  -webkit-text-stroke: #212121 0.04em;
 }
 
 .scoreboard {
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
-  color: purple;
+  -webkit-text-stroke: purple 1px;
+  color: white;
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 1000;
 }
 
 .scoreboard__score {
