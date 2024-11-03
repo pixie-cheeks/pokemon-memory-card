@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { GameHead } from '../GameHead/GameHead.jsx';
+import { GameDialog } from '../GameDialog/GameDialog.jsx';
 import allPokemon from './game-data.json';
 import './game.css';
 
@@ -17,68 +18,6 @@ function GameCard({ sprite, name, onClick }) {
       </div>
       <div className="card__name">{name}</div>
     </div>
-  );
-}
-
-function Modal({ children }) {
-  return (
-    <div className="modal">
-      <div className="modal__content">{children}</div>
-    </div>
-  );
-}
-
-function ModalButton({ onClick, children }) {
-  return (
-    <button type="button" className="button modal__button" onClick={onClick}>
-      {children}
-    </button>
-  );
-}
-
-function GameLostModal({ currentScore, resetGame, exitGame }) {
-  return (
-    <Modal>
-      <div className="modal__title">Game Over!</div>
-      <img src="#" alt="#" className="modal__img" />
-      <div className="modal__text">Your final score is {currentScore}.</div>
-      <div className="modal__actions">
-        <ModalButton onClick={resetGame}>Start Over</ModalButton>
-        <ModalButton onClick={exitGame}>Quit Game</ModalButton>
-      </div>
-    </Modal>
-  );
-}
-
-function GameWonModal({ resetGame, continueGame, currentScore, exitGame }) {
-  return (
-    <Modal>
-      <div className="modal__title">You Win!</div>
-      <img src="#" alt="#" className="modal__img" />
-      <div className="modal__text">Your final score is {currentScore}.</div>
-      <div className="modal__actions">
-        <ModalButton onClick={continueGame}>Keep Going</ModalButton>
-        <ModalButton onClick={resetGame}>Start Over</ModalButton>
-        <ModalButton onClick={exitGame}>Quit Game</ModalButton>
-      </div>
-    </Modal>
-  );
-}
-
-function GameCompletedModal({ currentScore, resetGame, exitGame }) {
-  return (
-    <Modal>
-      <div className="modal__title">100% completed!</div>
-      <img src="#" alt="#" className="modal__img" />
-      <div className="modal__text">
-        Your final score is {currentScore}. Congratulations for completing the
-        game!
-      </div>
-      <div className="modal__actions">
-        <ModalButton onClick={resetGame}>Start Over</ModalButton>
-        <ModalButton onClick={exitGame}>Quit Game</ModalButton>
-      </div>
-    </Modal>
   );
 }
 
@@ -199,17 +138,17 @@ function Game({ setCurrentScore, currentScore, quitGame, highScore }) {
           {roundScore}/{maxScore}
         </h2>
         <div className="game__cards-container">{pokemonCards}</div>
-        {isGameLost && (
-          <GameLostModal {...{ currentScore, resetGame, exitGame }} />
-        )}
-        {isGameWon && (
-          <GameWonModal
-            {...{ currentScore, resetGame, continueGame, exitGame }}
-          />
-        )}
-        {isGameCompleted && (
-          <GameCompletedModal {...{ currentScore, resetGame, exitGame }} />
-        )}
+        <GameDialog
+          {...{
+            isGameCompleted,
+            isGameLost,
+            isGameWon,
+            currentScore,
+            resetGame,
+            exitGame,
+            continueGame,
+          }}
+        />
       </div>
     </div>
   );

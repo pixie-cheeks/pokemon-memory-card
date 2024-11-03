@@ -1,0 +1,46 @@
+.modal {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  padding: 1em;
+  backdrop-filter: blur(10px);
+  font-size: 1.5rem;
+}
+
+.modal__content {
+  border: 5px solid black;
+  background-color: white;
+  padding: 1em;
+}
+
+.modal__title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.modal__text {
+  margin-bottom: 1em;
+}
+
+.modal__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.modal__button {
+  transition-duration: 0.2s;
+  transition-property: color, background-color;
+  transition-timing-function: ease-in-out;
+  border: 2px solid black;
+  background-color: white;
+  font: inherit;
+}
+
+.modal__button:hover {
+  background-color: black;
+  color: white;
+}
