@@ -1,0 +1,39 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-title {
+  border: none;
+  background-color: white;
+  padding: 0;
+  font: inherit;
+  font-size: large;
+  font-weight: bold;
+}
+
+.game-title__main {
+  color: yellow;
+  font-size: 2rem;
+  -webkit-text-stroke: #212121 0.01em;
+}
+
+.game-title__sub {
+  -webkit-text-stroke: #212121 0.007em;
+  color: white;
+}
+
+.scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  color: purple;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.scoreboard__score {
+  display: flex;
+  gap: 0.3em;
+}

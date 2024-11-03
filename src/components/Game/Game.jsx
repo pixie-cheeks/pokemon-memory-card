@@ -1,15 +1,22 @@
 import { useState } from 'react';
 import { GameHead } from '../GameHead/GameHead.jsx';
 import allPokemon from './game-data.json';
+import './game.css';
 
 function GameCard({ sprite, name, onClick }) {
   return (
-    <button type="button" className="game__card card" onClick={onClick}>
+    <div
+      role="button"
+      tabIndex={0}
+      className="game__card card"
+      onClick={onClick}
+      onKeyDown={({ key }) => key === 'Enter' && onClick()}
+    >
       <div className="card__img-container">
         <img src={sprite} alt={name} className="img card__img" />
       </div>
       <div className="card__name">{name}</div>
-    </button>
+    </div>
   );
 }
 
@@ -177,9 +184,9 @@ function Game({ setCurrentScore, currentScore, quitGame, highScore }) {
   ));
 
   return (
-    <>
-      <GameHead {...{ currentScore, highScore, exitGame }} />
-      <div className="game">
+    <div className="game">
+      <div className="container">
+        <GameHead {...{ currentScore, highScore, exitGame }} />
         <h2 className="game__card-count">
           {roundScore}/{maxScore}
         </h2>
@@ -196,7 +203,7 @@ function Game({ setCurrentScore, currentScore, quitGame, highScore }) {
           <GameCompletedModal {...{ currentScore, resetGame, exitGame }} />
         )}
       </div>
-    </>
+    </div>
   );
 }
 

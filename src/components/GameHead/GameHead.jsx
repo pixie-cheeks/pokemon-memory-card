@@ -1,3 +1,5 @@
+import './game-head.css';
+
 function Scoreboard({ currentScore, highScore }) {
   return (
     <div className="scoreboard">
@@ -20,7 +22,9 @@ function GameHead({ exitGame, currentScore, highScore }) {
         className="page__title game-title"
         onClick={exitGame}
       >
-        Pokémon: Memory Card
+        <span className="game-title__main">Pokémon:</span>
+        <br />
+        <span className="game-title__sub">Memory Card</span>
       </button>
       <Scoreboard {...{ currentScore, highScore }} />
     </header>
