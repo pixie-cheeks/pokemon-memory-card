@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { GameHead } from '../GameHead/GameHead.jsx';
 import { GameDialog } from '../GameDialog/GameDialog.jsx';
-import allPokemon from './game-data.json';
 import './game.css';
 
 function GameCard({ sprite, name, onClick }) {
@@ -53,10 +52,37 @@ function getRandomPokemon(pokemonList, maxPokemon = 15) {
   return randomPokemonArray;
 }
 
+async function fetchPokemon() {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const data = await response.json();
+  const pokemonList = await Promise.all(
+    data.results.map(async ({ url }) => {
+      const responseInner = await fetch(url);
+      const dataInner = await responseInner.json();
+      return {
+        id: dataInner.order,
+        name: dataInner.name,
+        sprite:
+          dataInner.sprites.versions['generation-i']['red-blue']
+            .front_transparent,
+      };
+    }),
+  );
+
+  return pokemonList;
+}
+
 const setSeen = (array, seenStatus) =>
   array.map((element) => ({ ...element, seen: seenStatus }));
 
-let newGamePokemon = setSeen(allPokemon, false);
+const lsFetchedPokemon = localStorage.getItem('fetchedPokemon');
+const fetchedPokemon = lsFetchedPokemon
+  ? JSON.parse(lsFetchedPokemon)
+  : await fetchPokemon();
+if (!lsFetchedPokemon)
+  localStorage.setItem('fetchedPokemon', JSON.stringify(fetchedPokemon));
+
+let newGamePokemon = setSeen(fetchedPokemon, false);
 let unseenPokemon = newGamePokemon.length - 15;
 
 function Game({ setCurrentScore, currentScore, quitGame, highScore }) {
