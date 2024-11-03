@@ -20,7 +20,6 @@ function GameLostModal({ currentScore, resetGame, exitGame }) {
   return (
     <Modal>
       <div className="modal__title">Game Over!</div>
-      <img src="#" alt="#" className="modal__img" />
       <div className="modal__text">Your final score is {currentScore}.</div>
       <div className="modal__actions">
         <ModalButton onClick={resetGame}>Start Over</ModalButton>
@@ -34,7 +33,6 @@ function GameWonModal({ resetGame, continueGame, currentScore, exitGame }) {
   return (
     <Modal>
       <div className="modal__title">You Win!</div>
-      <img src="#" alt="#" className="modal__img" />
       <div className="modal__text">Your final score is {currentScore}.</div>
       <div className="modal__actions">
         <ModalButton onClick={continueGame}>Keep Going</ModalButton>
@@ -49,7 +47,6 @@ function GameCompletedModal({ currentScore, resetGame, exitGame }) {
   return (
     <Modal>
       <div className="modal__title">100% completed!</div>
-      <img src="#" alt="#" className="modal__img" />
       <div className="modal__text">
         Your final score is {currentScore}. Congratulations for completing the
         game!
